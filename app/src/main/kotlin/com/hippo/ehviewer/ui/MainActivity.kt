@@ -320,6 +320,10 @@ class MainActivity : AppCompatActivity() {
                             if (args.getString(DownloadService.KEY_ACTION) == DownloadService.ACTION_CLEAR_DOWNLOAD_SERVICE) {
                                 DownloadService.clear()
                             }
+                            val gid = args.getLong(DownloadService.KEY_GID, -1L)
+                            if (gid != -1L) {
+                                DownloadManager.requestScrollToGid(gid)
+                            }
                             navigator.navigate(DownloadsScreenDestination)
                         }
                     }

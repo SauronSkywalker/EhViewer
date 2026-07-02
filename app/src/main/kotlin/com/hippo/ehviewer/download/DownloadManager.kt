@@ -74,6 +74,13 @@ import okio.Path.Companion.toPath
 object DownloadManager : OnSpiderListener, CoroutineScope {
     override val coroutineContext = Dispatchers.IO + Job()
 
+    private val _scrollToGid = MutableSharedFlow<Long>(extraBufferCapacity = 1)
+    val scrollToGid: Flow<Long> = _scrollToGid.asSharedFlow()
+
+    fun requestScrollToGid(gid: Long) {
+        _scrollToGid.tryEmit(gid)
+    }
+
     // All download info list
     private val allInfoList = runAssertingNotMainThread { EhDB.getAllDownloadInfo() as MutableList }
 
