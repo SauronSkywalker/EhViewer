@@ -157,26 +157,6 @@ fun AnimatedVisibilityScope.DownloadsScreen(navigator: DestinationsNavigator) = 
     var searchBarOffsetY by remember { mutableIntStateOf(0) }
     val animateItems by Settings.animateItems.collectAsState()
 
-    val listState = rememberLazyListState()
-    val gridState = rememberLazyStaggeredGridState()
-
-    LaunchedEffect(Unit) {
-        DownloadManager.scrollToGid.collect { gid ->
-            while (isLoading) {
-                delay(100)
-            }
-            delay(300)
-            val index = list.indexOfFirst { it.gid == gid }
-            if (index >= 0) {
-                if (gridView) {
-                    gridState.animateScrollToItem(index)
-                } else {
-                    listState.animateScrollToItem(index)
-                }
-            }
-        }
-    }
-
     var fabExpanded by remember { mutableStateOf(false) }
     var fabHidden by remember { mutableStateOf(false) }
     val checkedInfoMap = remember { mutableStateMapOf<Long, DownloadInfo>() }
@@ -248,6 +228,26 @@ fun AnimatedVisibilityScope.DownloadsScreen(navigator: DestinationsNavigator) = 
         DownloadsFilterMode.ARTIST -> artistList
     }
     val totalCount = remember(downloadsCountGroupByLabel) { downloadsCountGroupByLabel.values.sum() }
+
+    val listState = rememberLazyListState()
+    val gridState = rememberLazyStaggeredGridState()
+
+    LaunchedEffect(Unit) {
+        DownloadManager.scrollToGid.collect { gid ->
+            while (isLoading) {
+                delay(100)
+            }
+            delay(300)
+            val index = list.indexOfFirst { it.gid == gid }
+            if (index >= 0) {
+                if (gridView) {
+                    gridState.animateScrollToItem(index)
+                } else {
+                    listState.animateScrollToItem(index)
+                }
+            }
+        }
+    }
 
     fun switchLabel(label: String?) {
         Settings.recentDownloadLabel.value = label
