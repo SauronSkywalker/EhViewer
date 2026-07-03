@@ -126,6 +126,7 @@ import com.hippo.ehviewer.client.data.ListUrlBuilder
 import com.hippo.ehviewer.client.parser.GalleryDetailUrlParser
 import com.hippo.ehviewer.client.parser.GalleryPageUrlParser
 import com.hippo.ehviewer.collectAsState
+import com.hippo.ehviewer.download.DownloadManager
 import com.hippo.ehviewer.download.DownloadService
 import com.hippo.ehviewer.download.downloadLocation
 import com.hippo.ehviewer.ui.destinations.DownloadScreenDestination
