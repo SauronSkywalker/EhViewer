@@ -119,6 +119,23 @@ jobs:
           name: default-native-debug-symbols-${{ github.sha }}
           path: app/build/outputs/native-debug-symbols/defaultRelease/native-debug-symbols.zip
 
+      - name: Upload to CI Release
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          replacesArtifacts: true
+          tag: ci-build
+          name: CI Build
+          body: |
+            Automated CI build from commit ${{ github.sha }}
+            
+            Branch: ${{ github.ref_name }}
+          artifacts: |
+            app/build/outputs/apk/default/release/app-default-arm64-v8a-release.apk
+            app/build/outputs/apk/default/release/app-default-x86_64-release.apk
+            app/build/outputs/apk/default/release/app-default-armeabi-v7a-release.apk
+          token: ${{ github.token }}
+
   marshmallow:
     runs-on: ubuntu-latest
     steps:
