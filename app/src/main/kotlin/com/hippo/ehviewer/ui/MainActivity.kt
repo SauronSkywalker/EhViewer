@@ -325,7 +325,9 @@ class MainActivity : AppCompatActivity() {
                             if (gid != -1L) {
                                 DownloadManager.requestScrollToGid(gid)
                             }
-                            navigator.navigate(DownloadsScreenDestination)
+                            navigator.navigate(DownloadsScreenDestination) {
+                                launchSingleTop = true
+                            }
                         }
                     }
                 }

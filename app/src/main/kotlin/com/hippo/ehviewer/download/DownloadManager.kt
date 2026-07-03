@@ -75,7 +75,7 @@ import okio.Path.Companion.toPath
 object DownloadManager : OnSpiderListener, CoroutineScope {
     override val coroutineContext = Dispatchers.IO + Job()
 
-    private val _scrollToGid = MutableSharedFlow<Long>(extraBufferCapacity = 1)
+    private val _scrollToGid = MutableSharedFlow<Long>(replay = 1)
     val scrollToGid: Flow<Long> = _scrollToGid.asSharedFlow()
 
     fun requestScrollToGid(gid: Long) {
