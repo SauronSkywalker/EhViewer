@@ -145,7 +145,7 @@ import sh.calvin.reorderable.rememberReorderableLazyListState
 
 @Destination<RootGraph>
 @Composable
-fun AnimatedVisibilityScope.DownloadsScreen(navigator: DestinationsNavigator) = Screen(navigator) {
+fun AnimatedVisibilityScope.DownloadsScreen(navigator: DestinationsNavigator, scrollToGid: Long = -1L) = Screen(navigator) {
     var gridView by Settings.gridView.asMutableState()
     var sortMode by Settings.downloadSortMode.asMutableState()
     val filterMode by Settings.downloadFilterMode.collectAsState { DownloadsFilterMode.from(it) }
@@ -232,19 +232,18 @@ fun AnimatedVisibilityScope.DownloadsScreen(navigator: DestinationsNavigator) = 
     val listState = rememberLazyListState()
     val gridState = rememberLazyStaggeredGridState()
 
-    LaunchedEffect(Unit) {
-        DownloadManager.scrollToGid.collect { gid ->
-            while (isLoading) {
-                delay(100)
-            }
-            delay(300)
-            val index = list.indexOfFirst { it.gid == gid }
-            if (index >= 0) {
-                if (gridView) {
-                    gridState.animateScrollToItem(index)
-                } else {
-                    listState.animateScrollToItem(index)
-                }
+    LaunchedEffect(scrollToGid) {
+        if (scrollToGid == -1L) return@LaunchedEffect
+        while (isLoading) {
+            delay(100)
+        }
+        delay(300)
+        val index = list.indexOfFirst { it.gid == scrollToGid }
+        if (index >= 0) {
+            if (gridView) {
+                gridState.animateScrollToItem(index)
+            } else {
+                listState.animateScrollToItem(index)
             }
         }
     }
