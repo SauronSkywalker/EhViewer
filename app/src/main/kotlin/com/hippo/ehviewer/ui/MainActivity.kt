@@ -321,7 +321,11 @@ class MainActivity : AppCompatActivity() {
                                 DownloadService.clear()
                             }
                             val gid = args.getLong(DownloadService.KEY_GID, -1L)
-                            navigator.navigate(DownloadsScreenDestination(gid))
+                            navigator.navigate(DownloadsScreenDestination(gid)) {
+                                popUpTo(navController.graph.findStartDestination().id) {
+                                    inclusive = false
+                                }
+                            }
                         }
                     }
                 }
